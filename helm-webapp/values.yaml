@@ -1,0 +1,66 @@
+# ── Default Values for helm-webapp ──────────────────────────────────────────
+# Override these values with:
+#   helm install myapp ./helm-webapp -f custom-values.yaml
+#   helm install myapp ./helm-webapp --set replicaCount=3
+
+# Number of pod replicas
+replicaCount: 2
+
+# Container image configuration
+image:
+  repository: nginxdemos/hello
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+# Service configuration
+service:
+  type: NodePort   # Use LoadBalancer on cloud, NodePort for local/minikube
+  port: 80
+
+# Ingress configuration
+ingress:
+  enabled: false
+  className: "nginx"
+  annotations: {}
+  hosts:
+    - host: myapp.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+# Resource requests and limits
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    cpu: 200m
+    memory: 128Mi
+
+# Horizontal Pod Autoscaler
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+
+# Environment variables for the container
+env:
+  - name: APP_ENV
+    value: "development"
+  - name: APP_VERSION
+    value: "1.0.0"
+
+# Node selector, tolerations, and affinity (leave empty for defaults)
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+# Service account
+serviceAccount:
+  create: true
+  name: ""
+
+# Pod annotations
+podAnnotations: {}

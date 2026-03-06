@@ -1,0 +1,25 @@
+# ── Development Environment Overrides ───────────────────────
+replicaCount: 1
+
+image:
+  tag: "latest"
+
+service:
+  type: NodePort
+
+resources:
+  requests:
+    cpu: 25m
+    memory: 32Mi
+  limits:
+    cpu: 100m
+    memory: 64Mi
+
+autoscaling:
+  enabled: false
+
+env:
+  - name: APP_ENV
+    value: "development"
+  - name: LOG_LEVEL
+    value: "debug"
